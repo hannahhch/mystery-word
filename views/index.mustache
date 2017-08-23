@@ -7,11 +7,12 @@
   </head>
   <body>
     <div class = "wrapper">
-    <h1>Mystery Word</h1>
-    <form action = "/" method="post">
-        <input type = "text" name = "guessBox" placeholder="Guess a Letter!" maxlength="1"></input>
-        <button type = "submit" name = "submit-button">SUBMIT</button>
-      </form>
+      <h1>Mystery Word</h1>
+      <p>Your word is: <strong>{{randomLetters}}</strong></p>
+        <form action = "/" method="post">
+          <input type = "text" name = "guessBox" placeholder="Guess a Letter!" maxlength="1"></input>
+          <button type = "submit" name = "submit-button">SUBMIT</button>
+        </form>
       <div class = "letters-guessed">
         <p>Letters Guessed: {{guessArr}} </p>
       </div>

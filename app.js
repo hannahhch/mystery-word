@@ -12,8 +12,9 @@ const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().sp
 const app = express();
 
 
-//set an arrary for the guessed letters
+//set an arrary for the guessed letters and randomly generated word
 let guessArr = [];
+let randomWord = "";
 
 //set app to use mustache-express
 app.engine('mustache', mustache());
@@ -36,16 +37,26 @@ app.use(session({
 }));
 
 //this  will generate a random word from 'words' variable
-  let randomWord = words[Math.floor(Math.random()* words.length)];
-  //this will take that word and break it up into separate letter
-  let randomLetters = [...randomWord];
+   randomWord = words[Math.floor(Math.random()* words.length)];
 
-  console.log(randomLetters);
+  //this will take that word and break it up into separate letters
+  let randomLetters = [...randomWord];
 
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
-  res.render('index', { guessArr:guessArr });
+  res.render('index', { guessArr:guessArr , randomLetters:randomLetters });
 });
+
+//set end game page to render endgame.mustache file
+app.get('/endgame', function(req, res){
+  res.render('endgame');
+});
+
+//when play again button is clicked, user is redirected to index
+app.post('/endgame', function(req, res){
+  res.redirect('/');
+})
+
 
 //each time a guess is made, the letters will be pushed onto the array and posted to the request body.
 app.post('/', function(req, res){
