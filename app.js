@@ -35,12 +35,13 @@ app.use(session({
   saveUninitialized: true
 }));
 
-//this function will generate a random word from 'words' variable
-function randomWordGenerator(word){
+//this  will generate a random word from 'words' variable
   let randomWord = words[Math.floor(Math.random()* words.length)];
-  console.log(randomWord);
-}
-randomWordGenerator();
+  //this will take that word and break it up into separate letter
+  let randomLetters = [...randomWord];
+
+  console.log(randomLetters);
+
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
   res.render('index', { guessArr:guessArr });
