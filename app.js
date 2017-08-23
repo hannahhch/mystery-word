@@ -53,7 +53,9 @@ app.post('/', function(req, res){
   res.redirect('/');
 });
 
-
+app.post('/', function(req,res){
+  res.render('index', { randomLetters });
+})
 
 
 //serve the page
