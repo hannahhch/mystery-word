@@ -1,0 +1,11 @@
+.wrapper{
+  margin: 0 auto;
+  border: solid 1px black;
+  text-align: center;
+  width: 80%;
+  height: 100vh;
+}
+
+.letters-guessed{
+  margin-top: 50px;
+}
