@@ -41,10 +41,12 @@ app.use(session({
 
   //this will take that word and break it up into separate letters
   let randomLetters = [...randomWord];
+  //this replaces the commas with spaces
+  let randomSpaces = randomLetters.join(" ");
 
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
-  res.render('index', { guessArr:guessArr , randomLetters:randomLetters });
+  res.render('index', { guessArr:guessArr , randomSpaces:randomSpaces });
 });
 
 //set end game page to render endgame.mustache file
