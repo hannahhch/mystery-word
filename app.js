@@ -11,7 +11,6 @@ const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().sp
 //create the express app
 const app = express();
 
-console.log(words);
 
 //set an arrary for the guessed letters
 let guessArr = [];
@@ -36,6 +35,12 @@ app.use(session({
   saveUninitialized: true
 }));
 
+//this function will generate a random word from 'words' variable
+function randomWordGenerator(word){
+  let randomWord = words[Math.floor(Math.random()* words.length)];
+  console.log(randomWord);
+}
+randomWordGenerator();
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
   res.render('index', { guessArr:guessArr });
