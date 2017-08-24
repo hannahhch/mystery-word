@@ -8,9 +8,10 @@
   <body>
     <div class = "wrapper">
       <h1>Mystery Word</h1>
-      <p>Your word is: <strong>{{randomSpaces}}</strong></p>
+      <p>Your word is: <strong>{{resultsFormat}}</strong></p>
+      <p>Actual Word: {{randomWord}}</p>
         <form action = "/" method="post">
-          <input type = "text" name = "guessBox" placeholder="Guess a Letter!" maxlength="1"></input>
+          <input type = "text" name = "guessBox" placeholder="Guess a Letter!" maxlength="1" autofocus></input>
           <button type = "submit" name = "submit-button">SUBMIT</button>
         </form>
       <div class = "letters-guessed">

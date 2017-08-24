@@ -12,9 +12,12 @@ const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().sp
 const app = express();
 
 
-//set an arrary for the guessed letters and randomly generated word
+//set an arrary for the guessed letters
 let guessArr = [];
+//randomly generated word
 let randomWord = "";
+//line blanks
+let results = [];
 
 //set app to use mustache-express
 app.engine('mustache', mustache());
@@ -44,9 +47,17 @@ app.use(session({
   //this replaces the commas with spaces
   let randomSpaces = randomLetters.join(" ");
 
+
+//loop through the random word and give it a _ instead of letters
+  for (let i = 0; i < randomWord.length; i ++) {
+    results.push('_');
+  };
+
+  let resultsFormat = results.join(" ");
+
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
-  res.render('index', { guessArr:guessArr , randomSpaces:randomSpaces });
+  res.render('index', { guessArr , resultsFormat , randomWord });
 });
 
 //set end game page to render endgame.mustache file
@@ -65,7 +76,6 @@ app.post('/', function(req, res){
   guessArr.push(req.body.guessBox);
   res.redirect('/');
 });
-
 
 
 //serve the page
