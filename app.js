@@ -7,6 +7,7 @@ const session = require('express-session');
 const parseurl = require('parseurl');
 const fs = require('fs');
 const form = require('express-form');
+const flash = require('connect-flash');
 const field = form.field;
 //set words into a variable to access dict/words file from computer and split
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
@@ -21,6 +22,7 @@ let randomWord = "";
 //line blanks
 let results = [];
 
+let invalidArr = [];
 
 
 //set app to use mustache-express
@@ -57,7 +59,12 @@ app.use(session({
     results.push('_');
   };
 
+//formats the underscores to have spaces and no commas
   let resultsFormat = results.join(" ");
+
+
+
+
 
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
@@ -74,19 +81,20 @@ app.post('/endgame', function(req, res){
   res.redirect('/');
 })
 
+//tell the guessbox that we only want letters. If that doesn't happen, console the error
 app.post('/', form(
-  field("guessBox").trim().required().is(/^[a-z]+$/)
+field("guessBox").trim().required().is(/^[a-zA-Z]+$/)
 ), function(req, res, next){
-  if(!req.form.isValid){
-    console.log(req.form.errors);
+  if(req.form.isValid){
+    guessArr.push(req.body.guessBox)
   }
+  res.redirect('/')
+  //makes the middleware move to next post
   next();
 });
+
 //each time a guess is made, the letters will be pushed onto the array and posted to the request body.
-app.post('/', function(req, res){
-  guessArr.push(req.body.guessBox);
-  res.redirect('/');
-});
+
 
 
 //serve the page
