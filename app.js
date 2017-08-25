@@ -75,14 +75,18 @@ app.post('/endgame', function(req, res){
 //push the validated guesses to the array (shows up on page under letters guessed)
 app.post('/', function(req, res){
   guessArr.push(req.body.guessBox);
-  let foundMatch = guessArr.some(r=> randomLetters.indexOf(r) >= 0);
-  if (foundMatch){
-    console.log("Match!");
+  let playerGuess = req.body.guessBox;
+  if (randomLetters.includes(playerGuess)){
+    console.log("Match");
   } else {
-    console.log("No match");
+    console.log("No match!");
   }
   res.redirect('/');
 });
+
+app.post('/guess', function(req,res){
+
+})
 
 
 
