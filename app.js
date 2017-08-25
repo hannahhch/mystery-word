@@ -62,7 +62,7 @@ app.get('/', function(req, res){
         };
 
       //formats the underscores to have spaces and no commas
-         resultsFormat = results.join(" ");
+      resultsFormat = results.join(" ");
 
         newGame = false;
   }
@@ -86,7 +86,14 @@ app.post('/', function(req, res){
   let playerGuess = req.body.guessBox;
   function isMatch() {
     if (randomLetters.includes(playerGuess)){
+      for (i = 0; i < randomLetters.length; i ++){
+        if (playerGuess === randomLetters[i]){
+          results[i] = playerGuess;
+        }
+      }
+      resultsFormat = results.join(" ");
       return true;
+
     } else {
       //decreases lives on incorrect guess
       livesRemain += -1
@@ -94,7 +101,6 @@ app.post('/', function(req, res){
     }
   }
   if (livesRemain === 1) {
-    console.log("Game over!");
     livesRemain = 9;
     guessArr = [];
     results = [];
@@ -103,8 +109,8 @@ app.post('/', function(req, res){
     res.redirect('/');
   }
 
-  console.log(isMatch());
-  console.log(livesRemain);
+
+  console.log("function is Match", isMatch());
 
 });
 
