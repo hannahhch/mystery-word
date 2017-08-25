@@ -2,8 +2,8 @@
   margin: 0 auto;
   border: solid 1px black;
   text-align: center;
-  width: 70%;
-  height: 100vh;
+  width: 60%;
+  height: 85vh;
   background-color: #280F36;
   color: white;
 }
@@ -17,7 +17,26 @@ h1 {
   font-size: 80px;
 }
 
+
+
 body{
   margin: 0;
   background: radial-gradient(black, #280F36);
+}
+
+p{
+  font-family: 'Raleway', sans-serif;
+  text-transform: uppercase;
+}
+
+.header, .footer{
+  background-color: rgba(255, 255, 255, 0.85);
+  width: 100%;
+  color: black;
+  padding: .5%;
+  height: 5vh;
+}
+
+#lives{
+  padding-left: 1%;
 }
