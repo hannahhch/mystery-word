@@ -6,8 +6,6 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const parseurl = require('parseurl');
 const fs = require('fs');
-const form = require('express-form');
-const field = form.field;
 //set words into a variable to access dict/words file from computer and split
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
 //create the express app
@@ -20,10 +18,6 @@ let guessArr = [];
 let randomWord = "";
 //line blanks
 let results = [];
-
-let invalidArr = [];
-
-let errorMess = "";
 
 
 //set app to use mustache-express
@@ -63,10 +57,6 @@ app.use(session({
 //formats the underscores to have spaces and no commas
   let resultsFormat = results.join(" ");
 
-
-
-
-
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
   res.render('index', { guessArr , resultsFormat , randomWord });
@@ -82,13 +72,17 @@ app.post('/endgame', function(req, res){
   res.redirect('/');
 })
 
-//use express-form to tell the guessbox that we only want letters. Only push to the array if it has been validated
+//push the validated guesses to the array (shows up on page under letters guessed)
 app.post('/', function(req, res){
   guessArr.push(req.body.guessBox);
+  let foundMatch = guessArr.some(r=> randomLetters.indexOf(r) >= 0);
+  if (foundMatch){
+    console.log("Match!");
+  } else {
+    console.log("No match");
+  }
   res.redirect('/');
 });
-
-//each time a guess is made, the letters will be pushed onto the array and posted to the request body.
 
 
 
