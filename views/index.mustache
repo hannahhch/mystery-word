@@ -11,7 +11,7 @@
       <p>Your word is: <strong>{{resultsFormat}}</strong></p>
       <p>Actual Word: {{randomWord}}</p>
         <form action = "/" method="post">
-          <input type = "text" name = "guessBox" placeholder="Guess a Letter!" maxlength="1" autofocus></input>
+          <input type = "text" name = "guessBox" placeholder="Guess a Letter!" maxlength="1"  pattern= "[a-zA-Z]+" autofocus required></input>
           <button type = "submit" name = "submit-button">SUBMIT</button>
         </form>
       <div class = "letters-guessed">
