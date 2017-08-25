@@ -108,9 +108,7 @@ app.post('/', function(req, res){
   } else{
     res.redirect('/');
   }
-
-
-  console.log("function is Match", isMatch());
+isMatch();
 
 });
 
