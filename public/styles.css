@@ -2,10 +2,22 @@
   margin: 0 auto;
   border: solid 1px black;
   text-align: center;
-  width: 80%;
+  width: 70%;
   height: 100vh;
+  background-color: #280F36;
+  color: white;
 }
 
 .letters-guessed{
   margin-top: 50px;
+}
+
+h1 {
+  font-family: 'Reenie Beanie', cursive;
+  font-size: 80px;
+}
+
+body{
+  margin: 0;
+  background: radial-gradient(black, #280F36);
 }
