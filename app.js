@@ -11,14 +11,17 @@ const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().sp
 //create the express app
 const app = express();
 
-
+let randomLetters = [];
 //set an arrary for the guessed letters
 let guessArr = [];
 //randomly generated word
 let randomWord = "";
 //line blanks
 let results = [];
-
+let randomSpaces = "";
+let livesRemain = 8;
+let resultsFormat = "";
+let newGame = true;
 
 //set app to use mustache-express
 app.engine('mustache', mustache());
@@ -40,26 +43,30 @@ app.use(session({
   saveUninitialized: true
 }));
 
-//this  will generate a random word from 'words' variable
-   randomWord = words[Math.floor(Math.random()* words.length)];
 
-  //this will take that word and break it up into separate letters
-  let randomLetters = [...randomWord];
-  //this replaces the commas with spaces
-  let randomSpaces = randomLetters.join(" ");
-
-
-//loop through the random word and give it a _ instead of letters
-  for (let i = 0; i < randomWord.length; i ++) {
-    results.push('_');
-  };
-
-//formats the underscores to have spaces and no commas
-  let resultsFormat = results.join(" ");
 
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
-  res.render('index', { guessArr , resultsFormat , randomWord });
+  if (newGame){
+    //this  will generate a random word from 'words' variable
+       randomWord = words[Math.floor(Math.random()* words.length)];
+
+      //this will take that word and break it up into separate letters
+       randomLetters = [...randomWord];
+      //this replaces the commas with spaces
+       randomSpaces = randomLetters.join(" ");
+
+      //loop through the random word and give it a _ instead of letters
+         for(i = 0; i < randomWord.length; i ++) {
+          results.push('_');
+        };
+
+      //formats the underscores to have spaces and no commas
+         resultsFormat = results.join(" ");
+
+        newGame = false;
+  }
+  res.render('index', { guessArr , resultsFormat , randomWord , livesRemain});
 });
 
 //set end game page to render endgame.mustache file
@@ -69,6 +76,7 @@ app.get('/endgame', function(req, res){
 
 //when play again button is clicked, user is redirected to index
 app.post('/endgame', function(req, res){
+  newGame = true;
   res.redirect('/');
 })
 
@@ -76,17 +84,29 @@ app.post('/endgame', function(req, res){
 app.post('/', function(req, res){
   guessArr.push(req.body.guessBox);
   let playerGuess = req.body.guessBox;
-  if (randomLetters.includes(playerGuess)){
-    console.log("Match");
-  } else {
-    console.log("No match!");
+  function isMatch() {
+    if (randomLetters.includes(playerGuess)){
+      return true;
+    } else {
+      //decreases lives on incorrect guess
+      livesRemain += -1
+      return false;
+    }
   }
-  res.redirect('/');
+  if (livesRemain === 1) {
+    console.log("Game over!");
+    livesRemain = 9;
+    guessArr = [];
+    results = [];
+    res.redirect('/endgame');
+  } else{
+    res.redirect('/');
+  }
+
+  console.log(isMatch());
+  console.log(livesRemain);
+
 });
-
-app.post('/guess', function(req,res){
-
-})
 
 
 

@@ -8,6 +8,7 @@
   <body>
     <div class = "wrapper">
       <h1>Mystery Word</h1>
+      <h2>Lives Left: {{livesRemain}}</h2>
       <p>Your word is: <strong>{{resultsFormat}}</strong></p>
       <p>Actual Word: {{randomWord}}</p>
         <form action = "/" method="post">
@@ -16,7 +17,6 @@
         </form>
       <div class = "letters-guessed">
         <p>Letters Guessed: {{guessArr}} </p>
-        {{notValid}}
       </div>
     </div>
   </body>
