@@ -1,40 +1,52 @@
-.wrapper{
-  margin: 0 auto;
-  border: solid 1px black;
-  text-align: center;
-  width: 60%;
-  height: 90.5vh;
-  background-color: #280F36;
+/* displays styles for lives remain,etc. */
+.header{
+  background-color: transparent;
+  width: 100%;
   color: white;
+  margin: 10px 5px;
+
 }
 
+#lives {
+  padding: 15px;
+}
+
+/* displays styles for game */
+.wrapper{
+  border: solid 1px transparent;
+  text-align: center;
+  width: 60%;
+  height: 100vh;
+  margin: 0 20%;
+  background-color: black ;
+  color: white;
+  z-index: 1;
+}
+
+/* user guessed letters box */
 .letters-guessed{
   margin-top: 50px;
 }
 
+/* text styling */
 h1 {
+  margin-top: 20%;
   font-family: 'Reenie Beanie', cursive;
   font-size: 80px;
 }
 
-
-body{
-  margin: 0;
-  background: radial-gradient(black, #280F36);
-}
-
-p{
+p, span{
   font-family: 'Raleway', sans-serif;
   text-transform: uppercase;
 }
 
-.header{
-  background-color: #6A5C76;
-  width: 100%;
-  color: black;
-  padding: .5%;
+#yourWord{
+  font-size: 35px;
 }
 
-#lives{
-  padding-left: 1%;
+/* main body styling */
+body{
+  margin: 0;
+  background: radial-gradient(#A18992, black);
+  height: 100vh;
 }

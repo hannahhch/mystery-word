@@ -9,13 +9,13 @@
  </head>
   <body>
     <div class = "header">
-      <strong><p id = 'lives'>Lives Remaining: {{livesRemain}}</p></strong>
+      <span><strong id = 'lives'>Lives Remaining: {{livesRemain}}</strong></span>
     </div>
     <div class = "wrapper">
       <h1>Mystery Word
         <i class="fa fa-search" aria-hidden="true"></i>
       </h1>
-      <p>Your word is: <strong>{{resultsFormat}}</strong></p>
+      <p id = 'yourWord'><strong>{{resultsFormat}}</strong></p>
       <p>Actual Word: {{randomWord}}</p>
         <form action = "/" method="post">
           <input type = "text" name = "guessBox" placeholder="Guess a Letter!" maxlength="1"  pattern= "[a-zA-Z]+" autofocus required></input>
