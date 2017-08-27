@@ -109,8 +109,8 @@ app.post('/', function(req, res){
   isMatch();
 
 //if lives is at zero or winner function true, end the game
-  if (livesRemain === 1 || isWinner() === true) {
-    livesRemain = 9;
+  if (livesRemain === 0 || isWinner() === true) {
+    livesRemain = 8;
     guessArr = [];
     results = [];
     res.redirect('/endgame');
