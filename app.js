@@ -100,7 +100,16 @@ app.post('/', function(req, res){
       return false;
     }
   }
-  if (livesRemain === 1) {
+//function that checks if game has been won
+  function isWinner(){
+    if ( JSON.stringify(results) == JSON.stringify(randomLetters) ){
+      return true;
+    }
+  }
+  isMatch();
+
+//if lives is at zero or winner function true, end the game
+  if (livesRemain === 1 || isWinner() === true) {
     livesRemain = 9;
     guessArr = [];
     results = [];
@@ -108,10 +117,7 @@ app.post('/', function(req, res){
   } else{
     res.redirect('/');
   }
-isMatch();
-
 });
-
 
 
 //serve the page
