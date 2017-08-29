@@ -22,6 +22,9 @@ let randomSpaces = "";
 let livesRemain = 8;
 let resultsFormat = "";
 let newGame = true;
+let sortedArr = [];
+let resultsArr = [];
+let arrToString = "";
 
 //set app to use mustache-express
 app.engine('mustache', mustache());
@@ -50,20 +53,16 @@ app.get('/', function(req, res){
   if (newGame){
     //this  will generate a random word from 'words' variable
        randomWord = words[Math.floor(Math.random()* words.length)];
-
-      //this will take that word and break it up into separate letters
+    //this will take that word and break it up into separate letters
        randomLetters = [...randomWord];
       //this replaces the commas with spaces
        randomSpaces = randomLetters.join(" ");
-
       //loop through the random word and give it a _ instead of letters
          for(i = 0; i < randomWord.length; i ++) {
           results.push('_');
         };
-
       //formats the underscores to have spaces and no commas
-      resultsFormat = results.join(" ");
-
+        resultsFormat = results.join(" ");
         newGame = false;
   }
   res.render('index', { guessArr , resultsFormat , randomWord , livesRemain});
@@ -93,21 +92,21 @@ app.post('/', function(req, res){
       }
       resultsFormat = results.join(" ");
       return true;
-
     } else {
       //decreases lives on incorrect guess
       livesRemain += -1
       return false;
     }
   }
+  
+
+ isDuplicate();
 //function that checks if game has been won
   function isWinner(){
     if ( JSON.stringify(results) == JSON.stringify(randomLetters) ){
       return true;
     }
-  }
-  isMatch();
-
+  } isMatch();
 //if lives is at zero or winner function true, end the game
   if (livesRemain === 0 || isWinner() === true) {
     livesRemain = 8;
@@ -118,7 +117,6 @@ app.post('/', function(req, res){
     res.redirect('/');
   }
 });
-
 
 //serve the page
 app.listen(3000, function(){
