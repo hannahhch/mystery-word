@@ -55,10 +55,13 @@ app.get('/', function(req, res){
 });
 
 //set end game page to render endgame.mustache file
-app.get('/endgame', function(req, res){
-  res.render('endgame');
+app.get('/winner', function(req, res){
+  res.render('endgame', {randomWord:req.session.randomWord});
 });
 
+app.get('/loser', function(req,res){
+  res.render('endgame', {randomWord:req.session.randomWord});
+})
 //when play again button is clicked, user is redirected to index
 app.post('/endgame', function(req, res){
   req.session.newGame = true;
@@ -97,8 +100,10 @@ app.post('/', function(req, res){
   }
   isMatch();
 //if lives is at zero or winner function true, end the game
-  if (req.session.livesRemain === 0 || isWinner() === true) {
-    res.redirect('/endgame');
+  if (req.session.livesRemain === 0){
+    res.redirect('/loser');
+  } else if (isWinner()) {
+    res.redirect('/winner');
   } else{
     res.redirect('/');
   }

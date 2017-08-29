@@ -44,6 +44,13 @@ p, span{
   font-size: 35px;
 }
 
+#wordReveal{
+  font-size: 30px;
+  margin-top: 70px;
+}
+
+
+
 /* main body styling */
 body{
   margin: 0;
