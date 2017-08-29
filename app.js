@@ -11,21 +11,6 @@ const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().sp
 //create the express app
 const app = express();
 
-let randomLetters = [];
-//set an arrary for the guessed letters
-let guessArr = [];
-//randomly generated word
-let randomWord = "";
-//line blanks
-let results = [];
-let randomSpaces = "";
-let livesRemain = 8;
-let resultsFormat = "";
-let newGame = true;
-let sortedArr = [];
-let resultsArr = [];
-let arrToString = "";
-
 //set app to use mustache-express
 app.engine('mustache', mustache());
 app.set('views', './views')
@@ -46,26 +31,27 @@ app.use(session({
   saveUninitialized: true
 }));
 
-
-
 //start by rendering mustache to page with the array for guessed letters
 app.get('/', function(req, res){
-  if (newGame){
+  if (req.session.newGame || req.session.newGame === undefined ){
     //this  will generate a random word from 'words' variable
-       randomWord = words[Math.floor(Math.random()* words.length)];
+       req.session.randomWord = words[Math.floor(Math.random()* words.length)];
     //this will take that word and break it up into separate letters
-       randomLetters = [...randomWord];
+       req.session.randomLetters = [...req.session.randomWord];
       //this replaces the commas with spaces
-       randomSpaces = randomLetters.join(" ");
+       req.session.randomSpaces = req.session.randomLetters.join(" ");
       //loop through the random word and give it a _ instead of letters
-         for(i = 0; i < randomWord.length; i ++) {
-          results.push('_');
+          req.session.results = [];
+          req.session.guessArr = [];
+          req.session.livesRemain = 8;
+         for(i = 0; i < req.session.randomWord.length; i ++) {
+          req.session.results.push('_');
         };
       //formats the underscores to have spaces and no commas
-        resultsFormat = results.join(" ");
-        newGame = false;
+        req.session.resultsFormat = req.session.results.join(" ");
+        req.session.newGame = false;
   }
-  res.render('index', { guessArr , resultsFormat , randomWord , livesRemain});
+  res.render('index', { guessArr:req.session.guessArr , resultsFormat:req.session.resultsFormat , randomWord:req.session.randomWord , livesRemain:req.session.livesRemain});
 });
 
 //set end game page to render endgame.mustache file
@@ -75,49 +61,43 @@ app.get('/endgame', function(req, res){
 
 //when play again button is clicked, user is redirected to index
 app.post('/endgame', function(req, res){
-  newGame = true;
+  req.session.newGame = true;
   res.redirect('/');
 })
 
 //push the validated guesses to the array (shows up on page under letters guessed)
 app.post('/', function(req, res){
   let playerGuess = req.body.guessBox;
-
-  if (guessArr.includes(playerGuess)) {
+  if (req.session.guessArr.includes(playerGuess)) {
     return res.redirect('/');
   }
-  guessArr.push(playerGuess);
+  req.session.guessArr.push(playerGuess);
 
   function isMatch() {
-    if (randomLetters.includes(playerGuess)){
-      for (i = 0; i < randomLetters.length; i ++){
-        if (playerGuess === randomLetters[i]){
-          results[i] = playerGuess;
+    if (req.session.randomLetters.includes(playerGuess)){
+      for (i = 0; i < req.session.randomLetters.length; i ++){
+        if (playerGuess === req.session.randomLetters[i]){
+          req.session.results[i] = playerGuess;
         }
       }
-      resultsFormat = results.join(" ");
+      req.session.resultsFormat = req.session.results.join(" ");
       return true;
     } else {
       //decreases lives on incorrect guess
-      livesRemain += -1
+      req.session.livesRemain += -1
       return false;
     }
   }
 
-
-
 //function that checks if game has been won
   function isWinner(){
-    if ( JSON.stringify(results) == JSON.stringify(randomLetters) ){
+    if ( JSON.stringify(req.session.results) == JSON.stringify(req.session.randomLetters) ){
       return true;
     }
   }
   isMatch();
 //if lives is at zero or winner function true, end the game
-  if (livesRemain === 0 || isWinner() === true) {
-    livesRemain = 8;
-    guessArr = [];
-    results = [];
+  if (req.session.livesRemain === 0 || isWinner() === true) {
     res.redirect('/endgame');
   } else{
     res.redirect('/');
