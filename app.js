@@ -81,8 +81,13 @@ app.post('/endgame', function(req, res){
 
 //push the validated guesses to the array (shows up on page under letters guessed)
 app.post('/', function(req, res){
-  guessArr.push(req.body.guessBox);
   let playerGuess = req.body.guessBox;
+
+  if (guessArr.includes(playerGuess)) {
+    return res.redirect('/');
+  }
+  guessArr.push(playerGuess);
+
   function isMatch() {
     if (randomLetters.includes(playerGuess)){
       for (i = 0; i < randomLetters.length; i ++){
@@ -98,15 +103,16 @@ app.post('/', function(req, res){
       return false;
     }
   }
-  
 
- isDuplicate();
+
+
 //function that checks if game has been won
   function isWinner(){
     if ( JSON.stringify(results) == JSON.stringify(randomLetters) ){
       return true;
     }
-  } isMatch();
+  }
+  isMatch();
 //if lives is at zero or winner function true, end the game
   if (livesRemain === 0 || isWinner() === true) {
     livesRemain = 8;
