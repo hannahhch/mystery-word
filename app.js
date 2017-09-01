@@ -5,6 +5,7 @@ const mustache = require('mustache-express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const parseurl = require('parseurl');
+const path = require('path');
 const fs = require('fs');
 //set words into a variable to access dict/words file from computer and split
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
