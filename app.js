@@ -11,6 +11,11 @@ const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().sp
 //create the express app
 const app = express();
 
+let temp_dir = path.join(process.cwd(), 'temp/');
+
+if (!fs.existsSync(temp_dir))
+    fs.mkdirSync(temp_dir);
+
 //set app to use mustache-express
 app.engine('mustache', mustache());
 app.set('views', './views')
