@@ -76,6 +76,7 @@ app.post('/', function(req, res){
   }
   req.session.guessArr.push(playerGuess);
 
+//function that checks if the guessed letter is in the word
   function isMatch() {
     if (req.session.randomLetters.includes(playerGuess)){
       for (i = 0; i < req.session.randomLetters.length; i ++){
@@ -83,6 +84,7 @@ app.post('/', function(req, res){
           req.session.results[i] = playerGuess;
         }
       }
+
       req.session.resultsFormat = req.session.results.join(" ");
       return true;
     } else {
@@ -99,6 +101,7 @@ app.post('/', function(req, res){
     }
   }
   isMatch();
+
 //if lives is at zero or winner function true, end the game
   if (req.session.livesRemain === 0){
     res.redirect('/loser');
