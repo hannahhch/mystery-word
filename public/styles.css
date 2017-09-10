@@ -4,7 +4,33 @@
   width: 100%;
   color: white;
   margin: 10px 5px;
+}
 
+h3{
+  font-family: 'Raleway', sans-serif;
+  padding: 0 150px;
+}
+
+.play-button a, #play-again-button{
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  font-family: 'Reenie Beanie', cursive;
+  font-size: 25px;
+  background-color: #A18992;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+.play-button a:hover, #play-again-button:hover{
+  color:black;
+  cursor: pointer;
+}
+
+.play-button{
+  margin-top: 60px;
 }
 
 #lives {

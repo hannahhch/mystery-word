@@ -8,7 +8,38 @@ const parseurl = require('parseurl');
 const path = require('path');
 const fs = require('fs');
 //set words into a variable to access dict/words file from computer and split
-const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
+//const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
+const words = [
+  'mystery',
+  'spooky',
+  'ghost',
+  'investigate',
+  'haunted',
+  'afraid',
+  'frightening',
+  'ghoul',
+  'skeleton',
+  'werewolf',
+  'witch',
+  'zombie',
+  'eerie',
+  'creepy',
+  'casket',
+  'cauldron',
+  'gory',
+  'unnerving',
+  'tombstone',
+  'spirits',
+  'fangs',
+  'howl',
+  'coffin',
+  'skull',
+  'macabre',
+  'phantom',
+  'goblin',
+  'cackle',
+  'vampire'
+ ];
 //create the express app
 const app = express();
 
@@ -34,9 +65,14 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.get('/', function(req,res){
+  res.render('start');
+})
+
 //start by rendering mustache to page with the array for guessed letters
-app.get('/', function(req, res){
+app.get('/play', function(req, res){
   if (req.session.newGame || req.session.newGame === undefined ){
+    console.log(words);
     //this  will generate a random word from 'words' variable
        req.session.randomWord = words[Math.floor(Math.random()* words.length)];
     //this will take that word and break it up into separate letters
@@ -68,14 +104,14 @@ app.get('/loser', function(req,res){
 //when play again button is clicked, user is redirected to index
 app.post('/endgame', function(req, res){
   req.session.newGame = true;
-  res.redirect('/');
+  res.redirect('/play');
 })
 
 //push the validated guesses to the array (shows up on page under letters guessed)
-app.post('/', function(req, res){
+app.post('/play', function(req, res){
   let playerGuess = req.body.guessBox;
   if (req.session.guessArr.includes(playerGuess)) {
-    return res.redirect('/');
+    return res.redirect('/play');
   }
   req.session.guessArr.push(playerGuess);
 
@@ -111,7 +147,7 @@ app.post('/', function(req, res){
   } else if (isWinner()) {
     res.redirect('/winner');
   } else{
-    res.redirect('/');
+    res.redirect('/play');
   }
 });
 

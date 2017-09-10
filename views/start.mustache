@@ -2,18 +2,20 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Game Over</title>
+    <title>Mystery Word</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway|Reenie+Beanie" rel="stylesheet">
     <script src="https://use.fontawesome.com/ffa41e3f0d.js"></script>
   </head>
   <body>
     <div class = "wrapper">
-      <p id = 'wordReveal'>Your word was: {{randomWord}} </p>
-      <form action = "/endgame" method= "post">
-        <h1>Guess Again?</h1>
-        <button type = "submit" name = "play-again-button" id = "play-again-button">SUBMIT</button>
-      </form>
+      <h1>Mystery Word
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </h1>
+      <h3>Can you guess the haunted word?</h3>
+      <div class = 'play-button'>
+        <a href = "/play">BEGIN</a>
+      </div>
     </div>
   </body>
 </html>
